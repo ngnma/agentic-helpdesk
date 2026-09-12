@@ -1,0 +1,18 @@
+[COMPANY LETTERHEAD]
+
+{letter_date}
+
+To Whom It May Concern,
+
+RE: Proof of Income for {first_name} {last_name}
+
+This letter confirms that {first_name} {last_name} (Employee ID: {employee_id})
+is employed with us as {job_title}.
+
+Current annual salary: {currency} {annual_base_pay}
+Pay frequency: {pay_frequency}
+
+This confirmation is provided at the employee's request for {purpose}.
+
+Yours faithfully,
+HR Department

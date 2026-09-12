@@ -1,0 +1,13 @@
+{document_type} REQUEST
+
+Employee: {first_name} {last_name} ({employee_id})
+National Insurance / Tax reference: {tax_reference}
+Tax year: {tax_year}
+
+Reason for request: {reason}
+
+Employment start date: {hire_date}
+Employment end date: {leaving_date}
+
+Submitted on: {request_date}
+Status: Pending

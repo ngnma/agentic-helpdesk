@@ -1,0 +1,106 @@
+[
+    {
+      "template_id": "employment_verification_letter",
+      "file": "employment_verification_letter.txt",
+      "use_case": "Employment verification letter",
+      "csv_fields": [
+        "first_name", "last_name", "employee_id", "job_title",
+        "department", "hire_date", "annual_base_pay", "currency"
+      ],
+      "contextual_fields": ["letter_date", "employment_status"],
+      "requires_human_approval": false
+    },
+    {
+      "template_id": "payslip_reissue_request",
+      "file": "payslip_reissue_request.txt",
+      "use_case": "Payslip reissue / duplicate payslip",
+      "csv_fields": ["first_name", "last_name", "employee_id", "department"],
+      "contextual_fields": [
+        "requested_pay_period", "reason", "delivery_method", "request_date"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "p45_p60_request",
+      "file": "p45_p60_request.txt",
+      "use_case": "P45 / P60 request",
+      "csv_fields": ["first_name", "last_name", "employee_id", "hire_date"],
+      "contextual_fields": [
+        "document_type", "tax_reference", "tax_year", "reason",
+        "leaving_date", "request_date"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "proof_of_income_letter",
+      "file": "proof_of_income_letter.txt",
+      "use_case": "Proof of income / salary certificate",
+      "csv_fields": [
+        "first_name", "last_name", "employee_id", "job_title",
+        "annual_base_pay", "currency"
+      ],
+      "contextual_fields": ["letter_date", "pay_frequency", "purpose"],
+      "requires_human_approval": false
+    },
+    {
+      "template_id": "reference_letter_basic",
+      "file": "reference_letter_basic.txt",
+      "use_case": "Reference letter for a new employer",
+      "csv_fields": ["first_name", "last_name", "job_title", "department", "hire_date"],
+      "contextual_fields": ["letter_date", "leaving_date"],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "leave_confirmation_letter",
+      "file": "leave_confirmation_letter.txt",
+      "use_case": "Leave/holiday confirmation letter",
+      "csv_fields": ["first_name", "last_name", "employee_id"],
+      "contextual_fields": [
+        "letter_date", "leave_start_date", "leave_end_date", "leave_type"
+      ],
+      "requires_human_approval": false
+    },
+    {
+      "template_id": "change_of_personal_details_form",
+      "file": "change_of_personal_details_form.txt",
+      "use_case": "Change of personal details form",
+      "csv_fields": ["first_name", "last_name", "employee_id"],
+      "contextual_fields": [
+        "request_date", "field_name", "previous_value",
+        "new_value", "confirmation_flag"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "flexible_working_request_form",
+      "file": "flexible_working_request_form.txt",
+      "use_case": "Flexible working request form",
+      "csv_fields": ["first_name", "last_name", "employee_id", "job_title", "department"],
+      "contextual_fields": [
+        "current_pattern", "requested_pattern", "proposed_start_date",
+        "reason", "request_date"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "parental_leave_notification_form",
+      "file": "parental_leave_notification_form.txt",
+      "use_case": "Parental leave / maternity-paternity notification form",
+      "csv_fields": ["first_name", "last_name", "employee_id", "job_title", "department"],
+      "contextual_fields": [
+        "leave_type", "expected_start_date", "expected_duration",
+        "expected_date", "request_date"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "template_id": "resignation_acknowledgement_letter",
+      "file": "resignation_acknowledgement_letter.txt",
+      "use_case": "Resignation acknowledgement letter",
+      "csv_fields": ["first_name", "job_title", "department"],
+      "contextual_fields": [
+        "letter_date", "resignation_date", "notice_period", "last_working_day"
+      ],
+      "requires_human_approval": true
+    }
+  ]

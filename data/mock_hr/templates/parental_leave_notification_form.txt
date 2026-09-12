@@ -1,0 +1,13 @@
+PARENTAL LEAVE NOTIFICATION
+
+Employee: {first_name} {last_name} ({employee_id})
+Job title: {job_title}
+Department: {department}
+
+Leave type: {leave_type}
+Expected start date: {expected_start_date}
+Expected duration: {expected_duration}
+Expected due date / placement date: {expected_date}
+
+Submitted on: {request_date}
+Status: Pending HR confirmation

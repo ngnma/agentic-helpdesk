@@ -1,0 +1,11 @@
+CHANGE OF PERSONAL DETAILS FORM
+
+Employee: {first_name} {last_name} ({employee_id})
+Date of request: {request_date}
+
+Field being updated: {field_name}
+Previous value: {previous_value}
+New value: {new_value}
+
+Employee signature confirmation: {confirmation_flag}
+Status: Pending HR review

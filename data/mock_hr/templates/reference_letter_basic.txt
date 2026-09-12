@@ -1,0 +1,17 @@
+[COMPANY LETTERHEAD]
+
+{letter_date}
+
+To Whom It May Concern,
+
+RE: Reference for {first_name} {last_name}
+
+This letter confirms that {first_name} {last_name} was employed with us
+as {job_title} in the {department} department from {hire_date} to
+{leaving_date}.
+
+This is a factual reference confirming employment dates and job title only.
+We do not provide commentary on performance or conduct as a matter of policy.
+
+Yours faithfully,
+HR Department
