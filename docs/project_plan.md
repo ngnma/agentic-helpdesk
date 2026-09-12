@@ -1,52 +1,62 @@
-# Proposal of the project design (use cases, architucture, tools and datasources)
-## Top 10 use cases (as PM, thinking about  actual workforce)
+# Project design (use cases, architecture, tools, data sources)
 
-The company has ~90 staff across 5 branches: warehouse/yard staff, branch counter/sales staff, drivers, and office admin. That workforce profile drives the real questions:
+This is a personal portfolio project — an agentic AI HR helpdesk — not built for
+any specific employer. Scope is deliberately limited to HR queries only (no IT/
+warehouse-safety, which were part of an earlier draft of this project and have
+since been dropped — see note below).
 
-1. Annual leave balance & how to request it
-2. Sick/absence reporting process
-3. **Manual handling / PPE / forklift (FLT) safety procedures** — critical for a builders' merchant warehouse
-4. Mileage claims for inter-branch travel/deliveries
-5. Payslip / pay date queries
-6. IT password reset / access request for internal systems
-7. Workplace pension (auto-enrolment) questions
-8. Forklift licence / first aid certificate renewal reminders
-9. Who do I raise a grievance/complaint with
-10. Bank holiday & overtime pay policy
+The full list of use cases lives in `docs/use_cases.md` — that file is the
+single source of truth; it is not duplicated here to avoid the two documents
+drifting out of sync.
 
-## Workflow (same pattern for all 10)
+## Workflow (same pattern across use cases)
 
-`Employee asks → agent identifies them (auth) → retrieves relevant policy (RAG) → answers, or calls a tool (ticket/lookup) → escalates to human if sensitive`
+`Employee asks → agent identifies them (auth) → retrieves relevant policy (RAG) and/or looks up their record → answers, fills a template, or calls a tool (ticket/approval) → escalates to a human if sensitive`
 
-This tells us exactly what's needed: **RAG docs** (policy content) + **auth** (who's asking) + **ticketing** (action/escalation) + **mock private data** (things no public source can ethically provide).
+This tells us exactly what's needed: **RAG docs** (real policy content) +
+**auth** (who's asking) + **mock employee data** (private records no public
+source could ethically provide) + **templates** (standard HR document formats)
++ **a ticketing/approval mechanism** for anything with a real-world consequence.
 
 ## Real data sources
 
-| Use case | Real source | Why it fits | Free? |
-|---|---|---|---|
-| Leave, sick pay, grievance, parental leave | **ACAS** (acas.org.uk) — UK's official employment relations body | Real, free, UK-wide (covers Scotland), exactly the policy areas asked about | Free, public |
-| Manual handling, PPE, forklift/workplace transport | **HSE** (hse.gov.uk) — Health and Safety Executive | Genuinely core to a builders' merchant warehouse — HSE publishes detailed free guides on exactly this ("Warehousing and storage," "Workplace transport safety") | Free, public |
-| Workplace pension | **NEST Pension** (nestpension.org.uk) | NEST is the real UK government-backed auto-enrolment scheme most SMEs use; has public employee FAQs | Free, public |
-| Mileage/expenses | **HMRC** — Approved Mileage Allowance Payments (AMAP) rates page | Real, official, current UK rates — no invented numbers | Free, public |
-| IT password reset / access requests | **Microsoft 365 official support docs** | UK SMEs of this size overwhelmingly run Microsoft 365, not Google Workspace — this keeps the KB coherent with the auth choice below | Free, public |
+| Use case(s) | Real source | Why it fits |
+|---|---|---|
+| Sick/absence, grievance, flexible working | **ACAS** (acas.org.uk) — UK's official employment relations body | Real, free, UK-wide, exactly the policy areas asked about |
+| Workplace pension | **NEST Pension** (nestpensions.org.uk) | Real UK government-backed auto-enrolment scheme; public member help centre |
+| Mileage/expenses | **HMRC / GOV.UK Content API** — Approved Mileage Allowance Payments (AMAP) rates | Real, official, current UK rates, fetched via the structured GOV.UK Content API rather than scraped |
+
+## Mock data sources
+
+| Source | What it provides | Provenance |
+|---|---|---|
+| `data/mock_hr/employees/employee_records.csv` | Employee identity, job, pay, leave balance fields used across most use cases | Synthetic HR dataset — not self-generated. Sourced from [synthetic-hris.com](https://synthetic-hris.com/), a synthetic HRIS data generator. Records represent fictional individuals; no real personal data is used. |
+| `data/mock_hr/templates/*.txt` (+ `_manifest.json`) | 10 standard HR document templates (verification letter, P45/P60 request, change of details, flexible working request, etc.) | Authored for this project — real-world document *formats*, fictional company content |
+
+> **Note on removed scope:** an earlier draft of this project targeted a
+> specific builders'-merchant use case, including warehouse safety (HSE
+> guidance) and IT password reset (Microsoft 365 docs + Microsoft Entra ID
+> auth). Both were dropped when the project scope was narrowed to
+> HR-only. If IT/auth is reintroduced later, the original reasoning for
+> pairing Microsoft 365 docs with Entra ID (same-vendor consistency) is
+> preserved in earlier project notes, but a lighter-weight mock auth
+> mechanism is likely sufficient for the current HR-only scope and should
+> be decided explicitly rather than inherited from the dropped IT plan.
 
 ## Real tools (integration layer)
 
-| Tool | Real service | Why chosen over the obvious alternative |
+| Tool | Real service | Why chosen |
 |---|---|---|
-| Ticketing (create/update/query tickets) | **Zammad** (self-hosted, open-source, AGPLv3) | Freshdesk's free plan **blocks API access** (verified) — useless for a tool-calling demo. Zammad is genuinely free, open-source, and has a full REST API from day one. |
-| Employee auth/directory (identify who's asking) | **Microsoft Entra ID (Free tier)** | Permanently free, real OAuth/SSO, and matches the Microsoft 365 IT docs above — a consistent Microsoft-based stack rather than mixing ecosystems |
-| Leave balance lookup | Mock DB | No public API exposes real employees' personal leave balances — inherently private company data |
-| Forklift/training cert tracker | Mock DB | Private HR record — no ethical real source exists |
+| Ticketing / approval workflow (leave requests, P45/P60, personal detail changes, flexible working) | **Zammad** (self-hosted, open-source, AGPLv3) | Genuinely free, open-source, full REST API from day one — unlike Freshdesk's free tier, which blocks API access |
+| Employee lookup / leave balance / template data | Mock CSV + scoped MCP tools | No public source can ethically provide private employee records; access is field-scoped per tool (least-privilege), not a raw database query |
 
-## Why this combination is coherent (your consistency concern)
+## Why this combination is coherent
 
-- **IT docs (Microsoft 365) ↔ Auth (Entra ID)** — same vendor ecosystem, so "reset your password" instructions actually match how the demo authenticates users.
-- **HR/pension/expense docs are all UK-government-adjacent bodies** (ACAS, NEST, HMRC) — consistent regulatory domain.
-- **HSE content is the one that makes this recognizably a builders'-merchant/warehouse project**, not a generic office helpdesk — this is your strongest differentiator in an interview.
-- **Mocks are limited to genuinely private data only**, which — as discussed earlier — reads as good judgement rather than a shortcut.
+- **All three real sources (ACAS, NEST, HMRC) are UK regulatory/public-sector bodies** — consistent domain, so the RAG corpus reads as one coherent knowledge base rather than a grab-bag of unrelated sites.
+- **Mocks are limited to genuinely private data and authored document templates** — never standing in for content that a real public source could have provided instead.
+- **Every mock/synthetic input has a stated, honest provenance** (either "sourced from synthetic-hris.com" or "authored for this project") — nothing is presented as more real than it is.
 
-This gives you a defensible story: *"I integrated real UK regulatory/public-sector data sources (ACAS, HSE, NEST, HMRC) with a real open-source ticketing system (Zammad) and Microsoft Entra ID auth, mocking only genuinely private company records."*
+This gives a defensible project story: *"I integrated real UK regulatory data sources (ACAS, NEST, HMRC via its structured Content API) with an open-source ticketing/approval tool (Zammad), and used clearly-sourced synthetic HR data only where no real source could ethically exist."*
 
 ---
 # Development Plan
