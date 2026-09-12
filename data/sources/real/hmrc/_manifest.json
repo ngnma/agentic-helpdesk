@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Travel \u2014 mileage and fuel rates and allowances",
+    "url": "https://www.gov.uk/government/publications/rates-and-allowances-travel-mileage-and-fuel-allowances/travel-mileage-and-fuel-rates-and-allowances",
+    "topic": [
+      "HMRC",
+      "Expenses",
+      "Mileage rates"
+    ],
+    "source": "https://www.gov.uk/api/content/government/publications/rates-and-allowances-travel-mileage-and-fuel-allowances/travel-mileage-and-fuel-rates-and-allowances",
+    "file": "travel-mileage-and-fuel-rates-and-allowances.txt",
+    "characters": 2369
+  },
+  {
+    "title": "Expenses and benefits: business travel mileage for employees' own vehicles",
+    "url": "https://www.gov.uk/expenses-and-benefits-business-travel-mileage",
+    "topic": [
+      "HMRC",
+      "Expenses",
+      "Business travel"
+    ],
+    "source": "https://www.gov.uk/api/content/expenses-and-benefits-business-travel-mileage",
+    "file": "expenses-and-benefits-business-travel-mileage.txt",
+    "characters": 4730
+  }
+]

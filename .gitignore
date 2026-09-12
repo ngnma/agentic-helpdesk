@@ -31,10 +31,9 @@ Thumbs.db
 .ipynb_checkpoints/
 
 # Data & embeddings (large/regeneratable — keep raw/processed data out of git)
-data/raw/*
+*.txt
+*.csv
 data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
 *.faiss
 *.index
 chroma_db/
